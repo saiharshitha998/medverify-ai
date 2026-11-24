@@ -1,0 +1,26 @@
+medicine_name,generic_name,manufacturer,dosage_form,strength,batch_prefix,standard_shelf_life_months,license_number
+Paracetamol 650mg,Paracetamol,Cipla Ltd,Tablet,650mg,CIP,36,DL-20491-A
+Augmentin 625 Duo,Amoxicillin and Clavulanate Potassium,GlaxoSmithKline,Tablet,625mg,GSK,24,DL-18402-B
+Azithral 500mg,Azithromycin,Alembic Pharmaceuticals,Tablet,500mg,ALM,36,DL-33921-C
+Glycomet 500mg,Metformin Hydrochloride,USV Private Limited,Tablet,500mg,USV,36,DL-44820-D
+Atorva 20mg,Atorvastatin Calcium,Zydus Cadila,Tablet,20mg,ZYD,24,DL-55912-E
+Pan 40mg,Pantoprazole Sodium,Alkem Laboratories,Tablet,40mg,ALK,24,DL-67123-F
+Ciproglen 500mg,Ciprofloxacin,Glenmark Pharmaceuticals,Tablet,500mg,GLN,36,DL-78210-G
+Telma 40mg,Telmisartan,Glenmark Pharmaceuticals,Tablet,40mg,GLN,36,DL-78211-G
+Dolo 650mg,Paracetamol,Micro Labs Ltd,Tablet,650mg,MIC,36,DL-89301-H
+Montair LC,Montelukast and Levocetirizine,Cipla Ltd,Tablet,10mg+5mg,CIP,24,DL-20492-A
+Shelcal 500,Calcium and Vitamin D3,Torrent Pharmaceuticals,Tablet,500mg,TOR,24,DL-91823-I
+Thyronorm 50mcg,Levothyroxine Sodium,Abbott India Ltd,Tablet,50mcg,ABB,24,DL-10924-J
+Rosuvas 10mg,Rosuvastatin,Sun Pharma,Tablet,10mg,SUN,24,DL-11835-K
+Volini Gel,Diclofenac Diethylamine,Sun Pharma,Gel,30g,SUN,36,DL-11836-K
+Pantocid 40mg,Pantoprazole,Sun Pharma,Tablet,40mg,SUN,24,DL-11837-K
+Azee 500mg,Azithromycin,Cipla Ltd,Tablet,500mg,CIP,36,DL-20493-A
+Limcee 500mg,Vitamin C (Ascorbic Acid),Abbott India Ltd,Chewable Tablet,500mg,ABB,24,DL-10925-J
+Combiflam,Ibuprofen and Paracetamol,Sanofi India Ltd,Tablet,400mg+325mg,SAN,36,DL-12846-L
+Becosules Z,B-Complex with Vitamin C and Zinc,Pfizer Ltd,Capsule,Standard,PFI,24,DL-13957-M
+Omez 20mg,Omeprazole,Dr. Reddy's Laboratories,Capsule,20mg,DRR,36,DL-14068-N
+Zoryl M2,Glimepiride and Metformin,Intas Pharmaceuticals,Tablet,2mg+500mg,INT,24,DL-15179-O
+Voveran SR 100,Diclofenac Sodium,Novartis India,Tablet,100mg,NOV,36,DL-16280-P
+Levolin 1mg,Levosalbutamol,Cipla Ltd,Inhaler,1mg,CIP,24,DL-20494-A
+Allegra 120mg,Fexofenadine Hydrochloride,Sanofi India Ltd,Tablet,120mg,SAN,36,DL-12847-L
+Stamlo 5mg,Amlodipine Besylate,Dr. Reddy's Laboratories,Tablet,5mg,DRR,36,DL-14069-N

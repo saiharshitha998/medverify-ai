@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Verification History - MediVerify AI{% endblock %}
+
+{% block content %}
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+  <div>
+    <h1 class="page-title">
+      <span>📜</span> Medicine Verification History
+    </h1>
+    <p class="page-subtitle">
+      Log of all previous medicine authenticity checks stored persistently in SQLite database.
+    </p>
+  </div>
+  <div>
+    <button type="button" id="clearHistoryBtn" class="btn-secondary" style="color: var(--danger-color); border-color: var(--danger-border); font-size: 0.85rem;">
+      🗑 Clear Verification History
+    </button>
+  </div>
+</div>
+
+<!-- Filters and Search Toolbar -->
+<div class="card" style="padding: 18px 24px;">
+  <form method="GET" action="{{ url_for('history_page') }}" style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+    <!-- Filter Pills -->
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <a href="{{ url_for('history_page', filter='all', q=search_query) }}" 
+         class="btn-sample {% if current_filter == 'all' or not current_filter %}active{% endif %}"
+         style="{% if current_filter == 'all' or not current_filter %}background-color: var(--teal-primary); color: white; border-color: var(--teal-primary);{% endif %}">
+        All Records ({{ stats.total }})
+      </a>
+      <a href="{{ url_for('history_page', filter='Verified', q=search_query) }}" 
+         class="btn-sample"
+         style="{% if current_filter == 'Verified' %}background-color: var(--teal-primary); color: white; border-color: var(--teal-primary);{% endif %}">
+        ✓ Verified ({{ stats.verified }})
+      </a>
+      <a href="{{ url_for('history_page', filter='Suspicious', q=search_query) }}" 
+         class="btn-sample"
+         style="{% if current_filter == 'Suspicious' %}background-color: var(--danger-color); color: white; border-color: var(--danger-color);{% endif %}">
+        ⚠ Suspicious ({{ stats.suspicious }})
+      </a>
+      <a href="{{ url_for('history_page', filter='Not Found', q=search_query) }}" 
+         class="btn-sample"
+         style="{% if current_filter == 'Not Found' %}background-color: var(--neutral-color); color: white; border-color: var(--neutral-color);{% endif %}">
+        ? Not Found ({{ stats.not_found }})
+      </a>
+    </div>
+
+    <!-- Search Input -->
+    <div style="display: flex; gap: 8px;">
+      <input type="hidden" name="filter" value="{{ current_filter }}">
+      <input 
+        type="text" 
+        name="q" 
+        value="{{ search_query }}" 
+        class="form-control" 
+        placeholder="Search medicine, batch, manufacturer..." 
+        style="padding: 8px 14px; font-size: 0.875rem; width: 280px;"
+      >
+      <button type="submit" class="btn-primary" style="padding: 8px 16px; font-size: 0.875rem;">
+        Search
+      </button>
+      {% if search_query %}
+        <a href="{{ url_for('history_page', filter=current_filter) }}" class="btn-secondary" style="padding: 8px 14px; font-size: 0.875rem; color: var(--text-muted); border-color: var(--border-color);">
+          Reset
+        </a>
+      {% endif %}
+    </div>
+  </form>
+</div>
+
+<!-- History Records Table -->
+<div class="card">
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Medicine Name</th>
+          <th>Batch Number</th>
+          <th>Manufacturer</th>
+          <th>Mfg / Exp Date</th>
+          <th>Verdict</th>
+          <th>Confidence</th>
+          <th>Explanation Summary</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if history %}
+          {% for row in history %}
+            <tr>
+              <td>#{{ row.id }}</td>
+              <td style="font-weight: 600; color: var(--blue-secondary);">{{ row.medicine_name }}</td>
+              <td><code>{{ row.batch_number }}</code></td>
+              <td>{{ row.manufacturer }}</td>
+              <td style="font-size: 0.85rem; color: var(--text-muted);">
+                {{ row.mfg_date }} <br>to {{ row.exp_date }}
+              </td>
+              <td>
+                {% if row.result == 'Verified' %}
+                  <span class="badge badge-verified">✓ Verified</span>
+                {% elif row.result == 'Suspicious' %}
+                  <span class="badge badge-suspicious">⚠ Suspicious</span>
+                {% else %}
+                  <span class="badge badge-notfound">? Not Found</span>
+                {% endif %}
+              </td>
+              <td style="font-weight: 600; color: var(--text-main);">
+                {{ row.confidence }}%
+              </td>
+              <td style="max-width: 280px; font-size: 0.825rem; color: var(--text-muted); line-height: 1.4;">
+                {{ row.explanation }}
+              </td>
+              <td style="color: var(--text-light); font-size: 0.8rem; white-space: nowrap;">
+                {{ row.created_at }}
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="9" style="text-align: center; color: var(--text-muted); padding: 36px;">
+              No matching records found in verification history.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

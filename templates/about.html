@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}About Project - MediVerify AI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">
+    <span>ℹ️</span> About MediVerify AI Project
+  </h1>
+  <p class="page-subtitle">
+    Medicine Authenticity Verification Using Machine Learning: Project Architecture, Technologies, and Regulatory Scope.
+  </p>
+</div>
+
+<!-- Project Overview Card -->
+<div class="card">
+  <div class="card-title">
+    <span>💡 Executive Summary & Problem Statement</span>
+  </div>
+  <p style="margin-bottom: 16px; line-height: 1.7;">
+    The World Health Organization (WHO) estimates that up to <strong>10% to 15%</strong> of medical products circulating in low- and middle-income nations are either substandard or falsified. Counterfeit medicines lead to therapeutic failures, antimicrobial resistance, organ toxicity, and severe economic harm.
+  </p>
+  <p style="margin-bottom: 16px; line-height: 1.7;">
+    <strong>MediVerify AI</strong> is designed as a rapid, accessible first-line screening interface. It allows healthcare workers, pharmacists, and consumers to inspect packaging metadata against verified pharmaceutical registries and apply machine learning classification models to detect subtle anomalies (e.g., manufacturer mismatches, corrupted batch syntax, chronologically invalid dates, and irregular stability durations).
+  </p>
+</div>
+
+<!-- Architecture Breakdown -->
+<div class="card">
+  <div class="card-title">
+    <span>🏗 Two-Tier Analytical Verification Architecture</span>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 16px;">
+    <!-- Tier 1 -->
+    <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 20px;">
+      <div style="font-weight: 700; color: var(--blue-secondary); font-size: 1.05rem; margin-bottom: 8px;">
+        Tier 1: Reference Registry Deterministic Verification
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+        The system queries a curated reference dataset of authorized medicines (currently containing <strong>{{ registered_count }} registered formulations</strong> including Cipla, GlaxoSmithKline, Sun Pharma, Abbott, Dr. Reddy's Laboratories, and Alembic). It validates whether the drug name exists and whether the manufacturer holds the authorized license.
+      </p>
+    </div>
+
+    <!-- Tier 2 -->
+    <div style="background-color: var(--teal-bg); border: 1px solid var(--teal-border); border-radius: var(--radius-sm); padding: 20px;">
+      <div style="font-weight: 700; color: var(--teal-dark); font-size: 1.05rem; margin-bottom: 8px;">
+        Tier 2: Scikit-Learn Anomaly Classifier
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+        Extracts 9 numerical features (name similarity, manufacturer match, batch prefix, regex formatting, date sequence, shelf-life deviation, and batch Shannon entropy) and evaluates them using a trained <strong>Random Forest / Decision Tree Classifier</strong> to identify counterfeit anomalies.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Engineering & ML Pipeline -->
+<div class="card">
+  <div class="card-title">
+    <span>🧪 Machine Learning Methodology & Features</span>
+  </div>
+  <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px;">
+    The model is trained on calibrated pharmaceutical surveillance records with real-world anomaly patterns. The engineered feature set includes:
+  </p>
+
+  <ul style="padding-left: 20px; font-size: 0.92rem; line-height: 1.8; color: var(--text-main);">
+    <li><strong>Name Match Score (Float 0.0 - 1.0):</strong> Degree of similarity between entered drug name and registered formulations.</li>
+    <li><strong>Manufacturer Authorization (Float 0.0 - 1.0):</strong> Verifies if the entered producer matches the approved license holder.</li>
+    <li><strong>Batch Prefix Validation (Binary 0 / 1):</strong> Confirms whether the leading characters correspond to the manufacturer's syntax code (e.g., <code>CIP</code> for Cipla, <code>GSK</code> for GlaxoSmithKline).</li>
+    <li><strong>Batch Syntax Structure (Binary 0 / 1):</strong> Checks standard alphanumeric formatting (length 5-12, no illegal punctuation or emojis).</li>
+    <li><strong>Date Chronology Sequence (Binary 0 / 1):</strong> Detects glaring packaging errors where Expiry Date precedes Manufacturing Date.</li>
+    <li><strong>Shelf-Life Stability Duration (Months):</strong> Calculated months between manufacturing and expiration.</li>
+    <li><strong>Regulatory Shelf-Life Deviation (Months):</strong> Measures absolute difference against approved stability limits (typically 24 to 36 months).</li>
+    <li><strong>Batch Shannon Entropy (Float):</strong> Measures character randomness to flag repetitive dummy strings (e.g., <code>AAAA0000</code>).</li>
+  </ul>
+</div>
+
+<!-- Critical Regulatory Disclaimer & Limitations -->
+<div class="card" style="border-left: 5px solid var(--warning-color); background-color: var(--warning-bg);">
+  <div class="card-title" style="color: var(--warning-color);">
+    <span>⚠️ Critical Regulatory Disclaimer & Limitations</span>
+  </div>
+  <p style="font-size: 0.95rem; color: #78350f; line-height: 1.7; margin-bottom: 12px;">
+    <strong>Crucial Safety Principle:</strong> Successful verification on MediVerify AI confirms that the entered packaging data, manufacturer name, batch prefix, and shelf-life parameters match official reference specifications.
+  </p>
+  <p style="font-size: 0.92rem; color: #78350f; line-height: 1.7;">
+    <strong>Database matching does NOT prove that a physical medicine is genuine.</strong> Counterfeiters occasionally copy legitimate batch numbers and genuine packaging from authentic products. Genuine chemical verification requires physical laboratory testing, such as High-Performance Liquid Chromatography (HPLC), Mass Spectrometry, or Near-Infrared (NIR) spectroscopy to confirm Active Pharmaceutical Ingredient (API) purity and dissolution profiles.
+  </p>
+</div>
+
+<!-- Technology Stack -->
+<div class="card">
+  <div class="card-title">
+    <span>💻 Technology Stack</span>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+    <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+      <div style="font-weight: 700; color: var(--blue-secondary);">Python & Flask</div>
+      <div style="font-size: 0.825rem; color: var(--text-muted);">Backend server & REST routing</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+      <div style="font-weight: 700; color: var(--blue-secondary);">Scikit-Learn</div>
+      <div style="font-size: 0.825rem; color: var(--text-muted);">ML classification & evaluation metrics</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+      <div style="font-weight: 700; color: var(--blue-secondary);">Pandas & NumPy</div>
+      <div style="font-size: 0.825rem; color: var(--text-muted);">Reference catalog & feature transforms</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+      <div style="font-weight: 700; color: var(--blue-secondary);">SQLite3</div>
+      <div style="font-size: 0.825rem; color: var(--text-muted);">Persistent verification history logging</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+      <div style="font-weight: 700; color: var(--blue-secondary);">HTML5, CSS3, JS</div>
+      <div style="font-size: 0.825rem; color: var(--text-muted);">Responsive Teal/Dark Blue frontend</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+      <div style="font-weight: 700; color: var(--blue-secondary);">Chart.js</div>
+      <div style="font-size: 0.825rem; color: var(--text-muted);">Interactive analytics & ML visualizations</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

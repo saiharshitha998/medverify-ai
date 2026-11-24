@@ -1,0 +1,89 @@
+{
+    "model_name": "Decision Tree",
+    "all_models_comparison": {
+        "Random Forest": {
+            "accuracy": 0.9967,
+            "precision": 1.0,
+            "recall": 0.9933,
+            "f1_score": 0.9967
+        },
+        "Decision Tree": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0
+        },
+        "Logistic Regression": {
+            "accuracy": 0.97,
+            "precision": 1.0,
+            "recall": 0.94,
+            "f1_score": 0.9691
+        }
+    },
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "confusion_matrix": [
+        [
+            150,
+            0
+        ],
+        [
+            0,
+            150
+        ]
+    ],
+    "classification_report": {
+        "Suspicious": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 150.0
+        },
+        "Verified": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 150.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 300.0
+        },
+        "weighted avg": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 300.0
+        }
+    },
+    "feature_importances": {
+        "name_match_score": 0.0,
+        "mfg_match_score": 0.1453,
+        "batch_prefix_match": 0.0794,
+        "batch_format_valid": 0.0344,
+        "date_sequence_valid": 0.0,
+        "shelf_life_valid": 0.0,
+        "shelf_life_months": 0.0,
+        "shelf_life_deviation": 0.7248,
+        "batch_entropy": 0.0161
+    },
+    "feature_names": [
+        "name_match_score",
+        "mfg_match_score",
+        "batch_prefix_match",
+        "batch_format_valid",
+        "date_sequence_valid",
+        "shelf_life_valid",
+        "shelf_life_months",
+        "shelf_life_deviation",
+        "batch_entropy"
+    ],
+    "test_samples_count": 300,
+    "train_samples_count": 1200,
+    "timestamp": "2026-11-24 20:00:31"
+}

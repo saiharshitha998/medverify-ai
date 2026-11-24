@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MediVerify AI Medicine Authenticity Verification{% endblock %}
+
+{% block content %}
+<!-- Welcome / Hero Section -->
+<section class="hero-card">
+  <div class="hero-content">
+    <span class="hero-tag">Machine Learning Powered</span>
+    <h1 class="hero-title">Medicine Authenticity Verification System</h1>
+    <p class="hero-desc">
+      MediVerify AI provides intelligent cross-verification of pharmaceutical packaging details against authorized drug reference registries. Machine learning anomaly detection flags mismatched manufacturers, counterfeit batch syntax, and shelf-life inconsistencies in seconds.
+    </p>
+    <div class="hero-buttons">
+      <a href="{{ url_for('verify_page') }}" class="btn-primary">
+        <span>✚</span> Verify Medicine Now
+      </a>
+      <a href="{{ url_for('analytics_page') }}" class="btn-secondary">
+        <span>📊</span> View ML Analytics & Performance
+      </a>
+      <a href="{{ url_for('about_page') }}" class="btn-secondary">
+        <span>ℹ️</span> Project Documentation
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Live Statistics Cards -->
+<section class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon icon-blue">📋</div>
+    <div class="stat-details">
+      <div class="stat-label">Total Verifications</div>
+      <div class="stat-value">{{ stats.total }}</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon icon-teal">✓</div>
+    <div class="stat-details">
+      <div class="stat-label">Verified Consistent</div>
+      <div class="stat-value">
+        {{ stats.verified }}
+        <span class="stat-badge badge-positive">{{ stats.verified_pct }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon icon-amber">⚠</div>
+    <div class="stat-details">
+      <div class="stat-label">Suspicious Inconsistencies</div>
+      <div class="stat-value">
+        {{ stats.suspicious }}
+        <span class="stat-badge badge-alert">{{ stats.suspicious_pct }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon icon-teal">🏛</div>
+    <div class="stat-details">
+      <div class="stat-label">Registered Reference Catalog</div>
+      <div class="stat-value">{{ total_registered_meds }} Drugs</div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="card" style="margin-bottom: 32px;">
+  <div class="card-title">
+    <span>🔬 How MediVerify AI Works</span>
+  </div>
+  <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+    Our dual-tier verification architecture combines deterministic pharmaceutical registry lookups with machine learning anomaly classifiers.
+  </p>
+
+  <div class="steps-container">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-title">Enter Medicine Data</div>
+      <div class="step-desc">
+        Input the Medicine Name, Batch Number, Manufacturer, Manufacturing Date, and Expiry Date from the package label.
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-title">Dual-Tier ML Analysis</div>
+      <div class="step-desc">
+        The system queries authorized pharmaceutical reference records and extracts a 9-feature anomaly vector for the ML model.
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-title">Verdict & Explanation</div>
+      <div class="step-desc">
+        Receive an instant verdict: <strong>Verified</strong>, <strong>Suspicious</strong>, or <strong>Not Found</strong> with itemized parameter reasons.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Verifications Stream -->
+<section class="card">
+  <div class="card-title">
+    <span>🕒 Recent Verification Activity</span>
+    <a href="{{ url_for('history_page') }}" style="font-size: 0.85rem; color: var(--teal-primary); text-decoration: none; font-weight: 600;">
+      View Complete History →
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Medicine Name</th>
+          <th>Batch Number</th>
+          <th>Manufacturer</th>
+          <th>Shelf Life Duration</th>
+          <th>Result Verdict</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if recent_history %}
+          {% for row in recent_history %}
+            <tr>
+              <td>#{{ row.id }}</td>
+              <td style="font-weight: 600; color: var(--blue-secondary);">{{ row.medicine_name }}</td>
+              <td><code>{{ row.batch_number }}</code></td>
+              <td>{{ row.manufacturer }}</td>
+              <td>{{ row.mfg_date }} → {{ row.exp_date }}</td>
+              <td>
+                {% if row.result == 'Verified' %}
+                  <span class="badge badge-verified">✓ Verified</span>
+                {% elif row.result == 'Suspicious' %}
+                  <span class="badge badge-suspicious">⚠ Suspicious</span>
+                {% else %}
+                  <span class="badge badge-notfound">? Not Found</span>
+                {% endif %}
+              </td>
+              <td style="color: var(--text-muted); font-size: 0.85rem;">{{ row.created_at }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">
+              No verification checks recorded yet. <a href="{{ url_for('verify_page') }}">Verify the first medicine</a>.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
